@@ -29,14 +29,12 @@ export class Arrows {
   }
 
   addArrow(from, to, color = null, thickness = 4, opacity = 0.8) {
-    const arrowId = `arrow|${from}|${to}`;
-    
-    // Get color from config or use default
+    const arrowId = `${from}-${to}`;
+
     if (!color) {
       color = getValueConfig(enumOptions.ArrowColor) || this.sequenceColors.first;
     }
 
-    // Convert color to RGB if needed
     if (color.startsWith('rgb')) {
       const rgb = color.match(/\d+/g);
       if (rgb && rgb.length === 3) {
@@ -44,24 +42,36 @@ export class Arrows {
       }
     }
 
-    // Remove existing arrow if any
     this.removeArrow(from, to);
 
-    // Add arrow to the board with thickness and opacity
-    const arrowData = `${arrowId}|${color}|${thickness}|${opacity}`;
-    this.chessboard.game.markings.addOne(arrowData);
-    this.currentArrows.set(arrowId, { from, to, color, thickness, opacity });
+    const arrowObj = {
+      type: 'arrow',
+      node: true,
+      persistent: false,
+      data: {
+        from,
+        to,
+        color,
+        opacity
+      }
+    };
+
+    this.chessboard.game.markings.addOne(arrowObj);
+    this.currentArrows.set(arrowId, arrowObj);
   }
 
   removeArrow(from, to) {
-    const arrowId = `arrow|${from}|${to}`;
-    this.chessboard.game.markings.removeOne(arrowId);
-    this.currentArrows.delete(arrowId);
+    const arrowId = `${from}-${to}`;
+    const arrow = this.currentArrows.get(arrowId);
+    if (arrow) {
+      this.chessboard.game.markings.removeOne(arrow);
+      this.currentArrows.delete(arrowId);
+    }
   }
 
   clearArrows() {
-    for (const [arrowId] of this.currentArrows) {
-      this.chessboard.game.markings.removeOne(arrowId);
+    for (const [arrowId, arrow] of this.currentArrows) {
+      this.chessboard.game.markings.removeOne(arrow);
     }
     this.currentArrows.clear();
   }
