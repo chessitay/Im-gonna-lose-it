@@ -1,0 +1,71 @@
+{
+    "manifest_version": 3,
+    "name": "BetterMint - Chess Assistant",
+    "short_name": "BetterMint",
+    "version": "1.0.0",
+    "description": "A powerful chess analysis and training tool",
+    "permissions": [
+        "storage",
+        "declarativeNetRequest"
+    ],
+    "host_permissions": [
+        "http://*.chess.com/*",
+        "https://*.chess.com/*",
+        "http://*.lichess.org/*",
+        "https://*.lichess.org/*"
+    ],
+    "background": {
+        "service_worker": "js/background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*.chess.com/*",
+                "https://*.lichess.org/*"
+            ],
+            "js": ["js/content-script.js"],
+            "css": [
+                "css/options.css",
+                "css/analysis.css",
+                "css/analysis-tools.css"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "js/*",
+                "css/*",
+                "html/*",
+                "js/url-reader.js"
+            ],
+            "matches": [
+                "https://*.chess.com/*",
+                "https://*.lichess.org/*"
+            ]
+        }
+    ],
+    "action": {
+        "default_popup": "html/options.html",
+        "default_icon": {
+            "16": "img/logo-16.png",
+            "48": "img/logo-48.png",
+            "128": "img/logo-128.png"
+        }
+    },
+    "icons": {
+        "16": "img/logo-16.png",
+        "48": "img/logo-48.png",
+        "128": "img/logo-128.png"
+    },
+    "declarative_net_request": {
+        "rule_resources": [
+            {
+                "id": "ruleset_1",
+                "enabled": true,
+                "path": "rules.json"
+            }
+        ]
+    }
+}

@@ -1,0 +1,148 @@
+/* Analysis Window Styles */
+.better-mint-analysis-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    min-width: 300px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+.better-mint-analysis-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.better-mint-analysis-content {
+    padding: 16px;
+}
+
+/* Analysis Controls */
+.better-mint-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.better-mint-button {
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--button-background);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.better-mint-button:hover {
+    background: var(--button-hover-background);
+}
+
+/* Analysis Board */
+.better-mint-analysis-board {
+    margin: 16px 0;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Analysis Info */
+.better-mint-analysis-info {
+    margin-top: 12px;
+    padding: 12px;
+    background: var(--info-background);
+    border-radius: 4px;
+}
+
+/* Move List */
+.better-mint-move-list {
+    margin-top: 16px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.better-mint-move {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.better-mint-move:hover {
+    background: var(--hover-background);
+}
+
+.better-mint-move.active {
+    background: var(--active-background);
+}
+
+/* Analysis Overlay */
+.better-mint-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Arrows and Highlights */
+.better-mint-arrow {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1001;
+}
+
+.better-mint-highlight {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1001;
+}
+
+/* Evaluation Bar */
+.better-mint-eval-bar {
+    position: absolute;
+    right: -20px;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: var(--eval-bar-background);
+    z-index: 1002;
+}
+
+/* Loading States */
+.better-mint-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.better-mint-loading::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--border-color);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+} 
