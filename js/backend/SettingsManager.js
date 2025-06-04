@@ -44,9 +44,44 @@ export class SettingsManager {
         this.settings = { ...DefaultExtensionOptions };
         this.unsavedChanges = false;
         this.storage = chrome?.storage?.sync || {
-            get: (keys, callback) => callback({}),
-            set: (items, callback) => callback(),
-            clear: (callback) => callback()
+            get: (keys, callback) => {
+                const result = {};
+                if (keys === null) {
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const k = localStorage.key(i);
+                        try {
+                            result[k] = JSON.parse(localStorage.getItem(k));
+                        } catch {
+                            result[k] = localStorage.getItem(k);
+                        }
+                    }
+                } else if (Array.isArray(keys)) {
+                    keys.forEach(key => {
+                        try {
+                            result[key] = JSON.parse(localStorage.getItem(key));
+                        } catch {
+                            result[key] = localStorage.getItem(key);
+                        }
+                    });
+                } else if (typeof keys === 'string') {
+                    try {
+                        result[keys] = JSON.parse(localStorage.getItem(keys));
+                    } catch {
+                        result[keys] = localStorage.getItem(keys);
+                    }
+                }
+                callback(result);
+            },
+            set: (items, callback) => {
+                Object.entries(items).forEach(([key, value]) => {
+                    localStorage.setItem(key, JSON.stringify(value));
+                });
+                callback && callback();
+            },
+            clear: (callback) => {
+                localStorage.clear();
+                callback && callback();
+            }
         };
         this.listeners = new Set();
         this.initialized = false;
