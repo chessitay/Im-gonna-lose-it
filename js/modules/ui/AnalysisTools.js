@@ -12,10 +12,10 @@ export class AnalysisTools {
     this.evalScore = null;
     this.evalScoreAbbreviated = null;
     
-    // Get the board container
-    this.boardContainer = document.querySelector('.board-container') || 
+    // Use the board container if available, otherwise fallback to body
+    this.boardContainer = this.chessboard?.element ||
+                        document.querySelector('.board-container') ||
                         document.querySelector('.board') ||
-                        this.chessboard.element ||
                         document.body;
     
     // Initialize UI elements based on settings
@@ -28,6 +28,9 @@ export class AnalysisTools {
     
     // Set up event listeners
     this.setupEventListeners();
+
+    // Observe DOM changes to ensure bars remain attached
+    this.startDomObserver();
   }
 
   setupEventListeners() {
@@ -277,4 +280,18 @@ export class AnalysisTools {
       this.hideAnalysis();
     }
   }
-} 
+
+  startDomObserver() {
+    const observer = new MutationObserver(() => {
+      if (this.evalBar && !document.body.contains(this.evalBar)) {
+        document.body.appendChild(this.evalBar);
+      }
+      if (this.depthBar && !document.body.contains(this.depthBar)) {
+        document.body.appendChild(this.depthBar);
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    this.domObserver = observer;
+  }
+}

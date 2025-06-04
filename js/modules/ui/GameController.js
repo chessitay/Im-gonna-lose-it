@@ -1,5 +1,6 @@
 import { enumOptions, getValueConfig } from '../core/Config.js';
 import { getGradientColor } from '../utils/ColorUtils.js';
+import { Arrows } from './Arrows.js';
 
 export class GameController {
   constructor(BetterMintmaster, chessboard) {
@@ -14,6 +15,7 @@ export class GameController {
     this.evalScoreAbbreviated = null;
     this.currentMarkings = [];
     this.accuracyDisplay = null;
+    this.arrows = new Arrows(chessboard);
     
     this.initializeEventListeners();
     this.initializeAnalysisTools();
@@ -147,4 +149,16 @@ export class GameController {
       this.evalScoreAbbreviated.textContent = score.toFixed(1);
     }
   }
-} 
+
+  addArrow(from, to, color) {
+    if (this.arrows) {
+      this.arrows.addArrow(from, to, color);
+    }
+  }
+
+  clearArrows() {
+    if (this.arrows) {
+      this.arrows.clearArrows();
+    }
+  }
+}
