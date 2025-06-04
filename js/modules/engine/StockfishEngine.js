@@ -192,6 +192,10 @@ export class StockfishEngine {
       return;
     }
 
+    if (this.BetterMintmaster.game) {
+      this.BetterMintmaster.game.clearArrows();
+    }
+
     if (FENs) {
       this.currentFEN = FENs;
     } else {
@@ -236,6 +240,9 @@ export class StockfishEngine {
     this.lastTopMoves = [];
     this.currentFEN = null;
     this.isAnalyzing = false;
+    if (this.BetterMintmaster.game) {
+      this.BetterMintmaster.game.clearArrows();
+    }
   }
 
   UpdateExtensionOptions(options) {
@@ -398,16 +405,8 @@ export class StockfishEngine {
     }
 
     // Add arrow with proper color
-    if (this.BetterMintmaster.game && this.BetterMintmaster.game.controller) {
-      const arrowMarking = {
-        type: 'arrow',
-        from: from,
-        to: to,
-        color: color,
-        data: { from, to, color: color }
-      };
-      
-      this.BetterMintmaster.game.controller.markings.addOne(arrowMarking);
+    if (this.BetterMintmaster.game) {
+      this.BetterMintmaster.game.addArrow(from, to, color);
     }
 
     // Store move for analysis
